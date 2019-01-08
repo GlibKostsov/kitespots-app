@@ -1,0 +1,25 @@
+{
+  "name": "kitespots-app",
+  "version": "1.0.0",
+  "description": "MEAN stack application to help kitesurfers find the best spots",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GlibKostsov/kitespots-app.git"
+  },
+  "author": "Glib",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/GlibKostsov/kitespots-app/issues"
+  },
+  "homepage": "https://github.com/GlibKostsov/kitespots-app#readme",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "ejs": "^2.6.1",
+    "express": "^4.16.4",
+    "mongoose": "^5.4.2"
+  }
+}
