@@ -1,0 +1,11 @@
+<h1>  Edit spot </h1>
+
+
+<form action = "/spots/<%=spot._id%>?_method=PUT" method = "POST">
+	<input type = "text" name = "spot[name]" 		value = "<%=spot.name %>" >
+	<input type = "text" name = "spot[country]" 	value = "<%=spot.country %>" > 
+	<input type = "text" name = "spot[image]" 		value = "<%=spot.image %>" 	>
+	<input type = "text" name = "spot[description]" value = "<%=spot.description %>" >
+	<button> Submit </button>
+</form>
+<a href = "/spots">Go Back</a>

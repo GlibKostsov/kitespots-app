@@ -1,0 +1,17 @@
+<h1> Show page </h1>
+
+
+<img src = "<%= spot.image %>">
+<h2> <%=spot.name %> </h2>
+<h2> <%=spot.country%> </h2>
+<p><%=spot.description%></p>
+
+<form action = "/spots/<%=spot._id%>/edit" >
+	<input type="submit" value = "Edit"/>
+</form>
+
+<form action = "/spots/<%=spot._id%>?_method=DELETE" method="POST">
+	<input type="submit" value = "Delete"/>
+</form>
+
+<a href= "/spots"> Back </a>

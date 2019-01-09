@@ -1,6 +1,7 @@
 var express 		= require("express"),
 	app 			= express(),
 	bodyParser 		= require("body-parser"),
+	methodOverride 	= require("method-override"),
 	mongoose 		= require("mongoose"),
 	Spot 			= require("./models/spot.js"),
 	seedDB 			= require("./seeds");
@@ -14,7 +15,8 @@ mongoose.connect(url);
 app.use(bodyParser.urlencoded({extended : true}));
 //default files extension .ejs
 app.set("view engine", "ejs");
-
+//ads PUT and DELETE methods
+app.use(methodOverride("_method"));
 
 
 //seed spots to database
@@ -22,7 +24,7 @@ app.set("view engine", "ejs");
 
 
 
-//routes
+//routes---------------------------------------------------------
 //index routes
 var indexRoutes 	= require("./routes/index");
 app.use(indexRoutes);
@@ -30,12 +32,7 @@ app.use(indexRoutes);
 var spotRoutes 		= require("./routes/spots");
 app.use(spotRoutes);
 
-
-
-
-
-
-
+//-----------------------------------------------------
 
 
 
