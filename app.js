@@ -4,7 +4,8 @@ var express 		= require("express"),
 	methodOverride 	= require("method-override"),
 	mongoose 		= require("mongoose"),
 	Spot 			= require("./models/spot.js"),
-	seedDB 			= require("./seeds");
+	Comment 		= require("./models/comment.js");
+	// seedFunctions 	= require("./seeds");
 
 
 //database connection
@@ -20,7 +21,9 @@ app.use(methodOverride("_method"));
 
 
 //seed spots to database
-//seedDB();
+//seedFunctions.seedDB();
+//seed comments to database
+//seedFunctions.seedComments();
 
 
 
@@ -31,8 +34,11 @@ app.use(indexRoutes);
 //spots routes
 var spotRoutes 		= require("./routes/spots");
 app.use(spotRoutes);
-
+//comments routes
+var commentRoutes 	= require("./routes/comments");
+app.use(commentRoutes);
 //-----------------------------------------------------
+
 
 
 
@@ -41,10 +47,3 @@ app.use(spotRoutes);
 app.listen(4000, function(){
 	console.log("server is up!");
 });
-
-
-
-
-
-
-	

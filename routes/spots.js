@@ -35,10 +35,11 @@ router.get("/spots/new", function(req, res){
 
 //shows more info about a spot
 router.get("/spots/:id", function(req,res){
-	Spot.findById(req.params.id, function(err, foundSpot ){
+	Spot.findById(req.params.id).populate("comments").exec(function(err, foundSpot ){
 		if(err){
 			console.log(err);
 		} else {
+			console.log(foundSpot);
 			res.render("spots/show", {spot : foundSpot});
 		}
 		

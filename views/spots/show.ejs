@@ -18,4 +18,27 @@
 
 <a href= "/spots"> Back </a>
 
+
+<h2>Comments:</h2>
+
+<form action = "/spots/<%=spot._id%>/comments/new" >
+	<input type="submit" value = "New"/>
+</form>
+
+<% spot.comments.forEach(function(comment){ %>
+<p><strong> <%= comment.author %> </strong></p>
+<h4><%= comment.created %></h4>
+<p> <%= comment.text %> </p>
+
+<form action = "/spots/<%=spot._id%>/comments/<%=comment._id%>/edit" >
+	<input type="submit" value = "Edit"/>
+</form>
+
+<form action = "/spots/<%=spot._id%>/comments/<%=comment._id%>?_method=DELETE" method = "POST">
+	<input type="submit" value = "Delete"/>
+</form>
+
+<% }); %>
+
+
 <% include ../partials/footer %>

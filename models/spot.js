@@ -5,7 +5,13 @@ var spotSchema 	= new mongoose.Schema({
 	name: 		 String,
 	image:  	 String,
 	description: String,
-	country: 	 String 	
+	country: 	 String ,
+	comments: [
+				{
+					type: mongoose.Schema.Types.ObjectId,
+					ref: "Comment"
+				}
+			  ]
 });
 
 
