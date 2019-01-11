@@ -39,7 +39,6 @@ router.get("/spots/:id", function(req,res){
 		if(err){
 			console.log(err);
 		} else {
-			console.log(foundSpot);
 			res.render("spots/show", {spot : foundSpot});
 		}
 		
