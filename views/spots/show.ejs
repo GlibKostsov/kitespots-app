@@ -7,17 +7,20 @@
 <h2> <%=spot.name %> </h2>
 <h2> <%=spot.country%> </h2>
 <p><%=spot.description%></p>
+<p>
+	<em> Submitted by <%= spot.author.username %> </em>
+</p>
+<% if(currentUser && spot.author.id.equals(currentUser._id)){ %>
+	<form action = "/spots/<%=spot._id%>/edit" >
+		<input type="submit" value = "Edit"/>
+	</form>
 
-<form action = "/spots/<%=spot._id%>/edit" >
-	<input type="submit" value = "Edit"/>
-</form>
-
-<form action = "/spots/<%=spot._id%>?_method=DELETE" method="POST">
-	<input type="submit" value = "Delete"/>
-</form>
+	<form action = "/spots/<%=spot._id%>?_method=DELETE" method="POST">
+		<input type="submit" value = "Delete"/>
+	</form>
+<% } %>
 
 <a href= "/spots"> Back </a>
-
 
 <h2>Comments:</h2>
 
@@ -26,18 +29,17 @@
 </form>
 
 <% spot.comments.forEach(function(comment){ %>
-<p><strong> <%= comment.author %> </strong></p>
-<h4><%= comment.created %></h4>
-<p> <%= comment.text %> </p>
-
-<form action = "/spots/<%=spot._id%>/comments/<%=comment._id%>/edit" >
-	<input type="submit" value = "Edit"/>
-</form>
-
-<form action = "/spots/<%=spot._id%>/comments/<%=comment._id%>?_method=DELETE" method = "POST">
-	<input type="submit" value = "Delete"/>
-</form>
-
+	<p><strong> <%= comment.author.username %> </strong></p>
+	<h4><%= comment.created %></h4>
+	<p> <%= comment.text %> </p>
+	<% if(currentUser && spot.author.id.equals(currentUser._id)){ %>
+		<form action = "/spots/<%=spot._id%>/comments/<%=comment._id%>/edit" >
+			<input type="submit" value = "Edit"/>
+		</form>
+		<form action = "/spots/<%=spot._id%>/comments/<%=comment._id%>?_method=DELETE" method = "POST">
+			<input type="submit" value = "Delete"/>
+		</form>
+		<% } %>
 <% }); %>
 
 

@@ -1,13 +1,14 @@
 var express = require("express"),
 	router  = express.Router(),
 	Spot    = require("../models/spot"),
-	Comment = require("../models/comment");
+	Comment = require("../models/comment"),
+	middleware = require("../middleware/index");
 
 
 
 
 //send a form for a new comment
-router.get("/spots/:id/comments/new", function(req,res){
+router.get("/spots/:id/comments/new",  middleware.isLoggedIn  ,function(req,res){
 	Spot.findById(req.params.id, function(err, foundSpot){
 		if(err){
 			console.log(err);
@@ -19,7 +20,7 @@ router.get("/spots/:id/comments/new", function(req,res){
 });
 
 //creates a new comment
-router.post("/spots/:id/comments", function(req,res){
+router.post("/spots/:id/comments",  middleware.isLoggedIn  ,function(req,res){
 	Spot.findById(req.params.id,function(err, foundSpot){
 		if(err){
 			console.log(err);
@@ -30,6 +31,8 @@ router.post("/spots/:id/comments", function(req,res){
 					console.log(err);
 					res.redirect("/spots/" + req.params.id);
 				} else {
+					createdComment.author = { id: req.user._id , username: req.user.username };
+					createdComment.save();
 					foundSpot.comments.push(createdComment);
 					foundSpot.save();
 					res.redirect("/spots/" + req.params.id);
@@ -40,7 +43,7 @@ router.post("/spots/:id/comments", function(req,res){
 });
 
 //sends update comment form
-router.get("/spots/:id/comments/:comment_id/edit", function(req,res){
+router.get("/spots/:id/comments/:comment_id/edit", middleware.checkCommentOwnership ,function(req,res){
 	Comment.findById(req.params.comment_id, function(err, foundComment){
 		if(err){
 			res.redirect("back")
@@ -52,7 +55,7 @@ router.get("/spots/:id/comments/:comment_id/edit", function(req,res){
 
 
 //update a comment
-router.put("/spots/:id/comments/:comment_id", function(req, res){
+router.put("/spots/:id/comments/:comment_id", middleware.checkCommentOwnership ,function(req, res){
 	Comment.findByIdAndUpdate(req.params.comment_id, req.body.comment, function(err, updatedComment){
 		if(err){
 			console.log(err);
@@ -63,7 +66,7 @@ router.put("/spots/:id/comments/:comment_id", function(req, res){
 });
 
 //destroy a comment
-router.delete("/spots/:id/comments/:comment_id", function(req,res){
+router.delete("/spots/:id/comments/:comment_id", middleware.checkCommentOwnership , function(req,res){
 	Comment.findByIdAndRemove(req.params.comment_id, function(err){
 		if(err){
 			res.redirect("back");

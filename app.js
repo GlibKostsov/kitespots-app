@@ -46,7 +46,7 @@ app.use(function(req,res,next){
 //index routes
 var indexRoutes 	= require("./routes/index");
 app.use(indexRoutes);
-//spots routes
+//spots routesjs
 var spotRoutes 		= require("./routes/spots");
 app.use(spotRoutes);
 //comments routes

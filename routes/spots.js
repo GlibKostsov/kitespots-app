@@ -1,6 +1,7 @@
 var express = require("express"),
 	router  = express.Router(),
-	Spot 	= require("../models/spot");
+	Spot 	= require("../models/spot"),
+	middleware = require("../middleware");
 
 
 
@@ -17,8 +18,9 @@ router.get("/spots",function(req,res){
 });
 
 //creates new spot
-router.post("/spots",function(req,res){
+router.post("/spots", middleware.isLoggedIn ,function(req,res){
 	var newSpot = req.body.spot
+		newSpot.author = { id: req.user._id , username: req.user.username }
 	Spot.create(newSpot, function(err, spot){
 		if(err){
 			console.log(err);
@@ -29,7 +31,7 @@ router.post("/spots",function(req,res){
 });
 
 //shows new spot form
-router.get("/spots/new", function(req, res){
+router.get("/spots/new", middleware.isLoggedIn ,function(req, res){
 	res.render("spots/new");
 });
 
@@ -46,7 +48,7 @@ router.get("/spots/:id", function(req,res){
 });
 
 //shows edit spot form
-router.get("/spots/:id/edit", function(req, res){
+router.get("/spots/:id/edit", middleware.checkSpotOwnership , function(req, res){
 	Spot.findById(req.params.id, function(err, foundSpot){
 		if(err){
 			console.log(err);
@@ -58,7 +60,7 @@ router.get("/spots/:id/edit", function(req, res){
 });
 
 //updates a spot
-router.put("/spots/:id", function(req,res){
+router.put("/spots/:id", middleware.checkSpotOwnership ,function(req,res){
 	Spot.findByIdAndUpdate(req.params.id, req.body.spot, function(err, updatedSpot){
 		if(err){
 			console.log(err)
@@ -70,7 +72,7 @@ router.put("/spots/:id", function(req,res){
 });
 
 //deletes a spot
-router.delete("/spots/:id", function(req,res){
+router.delete("/spots/:id", middleware.checkSpotOwnership ,function(req,res){
 	Spot.findByIdAndRemove(req.params.id, function(err){
 		if(err){
 			console.log(err)
