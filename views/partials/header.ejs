@@ -2,7 +2,8 @@
 <html>
 <head>
 	<title>KyteSpots</title>
-	<link rel = "stylesheet" href= "https://stackpath.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<link rel = "stylesheet" href = "https://stackpath.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<link rel = "stylesheet" href = "/stylesheets/main.css">
 </head>
 <body>
 
@@ -23,8 +24,25 @@
 				<% } %>	
 			</ul>
 		</div>
-
-
-
 	</div>
 </nav>
+
+
+<div calass = "container">
+	<% if(error && error.length > 0){ %>
+		<div class = "alert alert-danger" role = "alert">
+			<h1><%=error%></h1>
+		</div>
+	<%}%>
+	<% if(success && success.length > 0){ %>	
+		<div class = "alert alert-success" role = "alert">
+			<h1><%=success%></h1>
+		</div>
+	<%}%>
+	<% if(info && info.length > 0){ %>	
+		<div class = "alert alert-info" role = "alert">
+			<h1><%=info%></h1>
+		</div>
+	<%}%>
+
+</div>

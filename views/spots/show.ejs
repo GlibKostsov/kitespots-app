@@ -1,46 +1,77 @@
 <% include ../partials/header %>
 
-<h1> Show page </h1>
+<div class = "container">
+	<div class = "row">
+
+		<div class = "col-md-3">
+			<p class = "lead"> KiteSpots </p>
+			<div class = "list-group">
+				<li class = "list-group-item active"> Info 1 </li>
+				<li class = "list-group-item"> Info 2 </li>
+				<li class = "list-group-item"> Info 3 </li> 
+			</div>
+		</div>
 
 
-<img src = "<%= spot.image %>">
-<h2> <%=spot.name %> </h2>
-<h2> <%=spot.country%> </h2>
-<p><%=spot.description%></p>
-<p>
-	<em> Submitted by <%= spot.author.username %> </em>
-</p>
-<% if(currentUser && spot.author.id.equals(currentUser._id)){ %>
-	<form action = "/spots/<%=spot._id%>/edit" >
-		<input type="submit" value = "Edit"/>
-	</form>
+		<div class = "col-md-9">
+			<div class = "thumbnail">
+				<img class = "img-responsive" src = "<%= spot.image %>" >
+				<div class = "caption-full">
+					<h4><a> <%=spot.name %> </a></h4>
+					<p><%=spot.description%></p>
+					<p>
+						<em> Submitted by <%= spot.author.username %> </em>
+					</p>
 
-	<form action = "/spots/<%=spot._id%>?_method=DELETE" method="POST">
-		<input type="submit" value = "Delete"/>
-	</form>
-<% } %>
+					<% if(currentUser && spot.author.id.equals(currentUser._id)){ %>
+						<a class = "btn btn-xs btn-warning" href = "/spots/<%=spot._id%>/edit" > Edit </a>
 
-<a href= "/spots"> Back </a>
+						<form id = "delete-form" action = "/spots/<%=spot._id%>?_method=DELETE" method="POST">
+							<button class = "btn btn-xs btn-danger"> Delete </button>
+						</form>
+					<% } %>
 
-<h2>Comments:</h2>
 
-<form action = "/spots/<%=spot._id%>/comments/new" >
-	<input type="submit" value = "New"/>
-</form>
+				</div>
+			</div>
 
-<% spot.comments.forEach(function(comment){ %>
-	<p><strong> <%= comment.author.username %> </strong></p>
-	<h4><%= comment.created %></h4>
-	<p> <%= comment.text %> </p>
-	<% if(currentUser && spot.author.id.equals(currentUser._id)){ %>
-		<form action = "/spots/<%=spot._id%>/comments/<%=comment._id%>/edit" >
-			<input type="submit" value = "Edit"/>
-		</form>
-		<form action = "/spots/<%=spot._id%>/comments/<%=comment._id%>?_method=DELETE" method = "POST">
-			<input type="submit" value = "Delete"/>
-		</form>
-		<% } %>
-<% }); %>
 
+			<div class = "well">
+				<div class = "text-right">
+					<a class = "btn btn-success" href = "/spots/<%=spot._id%>/comments/new" > Add New Comment </a>
+				</div>
+				<hr>
+
+				<% spot.comments.forEach(function(comment){ %>
+					<div class = "row">
+						<div class = "col-md-12">
+							<strong> <%= comment.author.username %> </strong>
+							<small class = "pull-right"><%= comment.created.toDateString() %></small>
+							<p> <%= comment.text %> </p>
+
+							<% if(currentUser && comment.author.id.equals(currentUser._id)){ %>
+								<a class= "btn btn-xs btn-warning" 
+								href= "/spots/<%=spot._id%>/comments/<%=comment._id%>/edit">
+								Edit 
+								</a>
+								<form id= "delete-form" action = "/spots/<%=spot._id%>/comments/<%=comment._id%>?_method=DELETE" method = "POST">
+									<button class= "btn btn-xs btn-danger" > Delete </button>
+								</form>
+							<% } %>
+
+						</div>
+					</div>		
+				<% }); %>				
+			</div>
+
+
+		</div>
+	</div>
+</div>
 
 <% include ../partials/footer %>
+
+
+
+
+

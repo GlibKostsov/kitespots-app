@@ -1,22 +1,33 @@
 <% include ../partials/header %>
 
-<h1>Spots:</h1>
+<div class = "container">
 
-<form action = "/spots/new" >
-		<input type="submit" value = "New Spot"/>
-</form>	
+	<header class= "jumbotron">
+		<div class = "container">
+			<h1> Welcome to KiteSpots! </h1>
+			<p>
+				Discover the best spots from all over the world
+			</p>
+			<p>
+				<a class = "btn btn-primary btn-large" href = "/spots/new"> Add New Spot </a>
+			</p>
+		</div>	
+	</header>
 
-<% spots.forEach(function(spot){ %>
+	<div class = "row text-center" style ="display:flex; flex-wrap: wrap;">
+		<% spots.forEach(function(spot){ %>
+			<div class = "col-md-3 col-sm-6">
+				<div class = "thumbnail">
+					<img src= "<%= spot.image %>">
+					<div class = "caption">
+						<h2> <%=spot.name %></h2>
+						<a href = "/spots/<%=spot._id %>" class = "btn btn-primary btn-md" role = "button"> More info </a>	
+					</div>
+				</div>
+			</div>
+		<% }); %>
+	</div>
 	
-	<img src= "<%= spot.image %>">
-
-	<h2> <%=spot.name %></h2>
-
-	<form action = "/spots/<%=spot._id %>" >
-		<input type="submit" value = "Show More"/>
-	</form>
-
-
-<% }); %>
+</div>
 
 <% include ../partials/footer %>

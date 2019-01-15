@@ -2,6 +2,7 @@ var express 		= require("express"),
 	app 			= express(),
 	bodyParser 		= require("body-parser"),
 	methodOverride 	= require("method-override"),
+	flash 			= require("connect-flash"),
 	mongoose 		= require("mongoose"),
 	passport 		= require("passport"),
 	LocalStrategy 	= require("passport-local"),
@@ -17,9 +18,12 @@ mongoose.connect(url);
 app.use(bodyParser.urlencoded({extended : true}));
 //default files extension .ejs
 app.set("view engine", "ejs");
+//stylesheets directory
+app.use(express.static(__dirname + "/public"));
 //ads PUT and DELETE requests
 app.use(methodOverride("_method"));
-
+//flash dissapearing messages 
+app.use(flash());
 
 //passport configs----------------------------------------------
 app.use(require("express-session")({
@@ -34,13 +38,15 @@ passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 //----------------------------------------------------
 
-
 //shared variables
 app.use(function(req,res,next){
+	console.log(req.user);
 	res.locals.currentUser = req.user; 
+	res.locals.error = req.flash("error");
+	res.locals.success = req.flash("success");
+	res.locals.info = req.flash("info");
 	next();
 });
-
 
 //routes---------------------------------------------------------
 //index routes

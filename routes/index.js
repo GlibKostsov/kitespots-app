@@ -24,6 +24,7 @@ router.post("/register", function(req,res){
 			return res.render("user/register");
 		}
 		passport.authenticate("local")(req,res,function(){
+			req.flash("success", "Welcome to KiteSpots" + user.username);
 			res.redirect("/spots");
 		});
 	}); 
